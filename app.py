@@ -4,6 +4,10 @@ import streamlit as st
 
 from utils.preprocess import load_data
 from utils.st_exploratory import run_eda  
+from utils.st_feature_engineering import run_feature_engineering
+from utils.st_model_training import run_model_training
+from utils.st_model_evaluation import run_model_evaluation
+
 
 # '''
 # root _____________
@@ -11,9 +15,17 @@ from utils.st_exploratory import run_eda
 #         |__________utils
 #             |------preprocess.py
 #             |------exploratory.py
-#             |------st.exploratory.py
+#             |------st_exploratory.py    #EDA
+#             |------feature_engineering.py
+#             |------st_feature_engineering.py 
 #             |------model_training.py
-#             |------st.model_training.py
+#             |------st_model_training.py
+#             |------model_evaluation.py
+#             |------st_model_evaluation.py
+#             |------prediction.py
+#             |------st_prediction.py
+#             |------climate_text_analysis.py    # nlp
+#             |------st_climate_text_analysis.py
 
 
 # '''
@@ -35,18 +47,35 @@ def main():
     #side bar
 
     st.sidebar.title("Navigation Page")
-    page = st.sidebar.radio("Go to", ["EDA", "Model Training", "Prediction"])
+    page = st.sidebar.radio("Go to", ["EDA", "Feature Engineering", "Model Training", "Model Evaluation"])
 
+    # if 'df' not in st.session_state:
+    #     st.session_state.df = load_data()
+
+    # df = st.session_state.df
     df = load_data()
+    try:
+        if page == "EDA":
+            run_eda(df)   # call EDA part
 
-    if page == "EDA":
-        run_eda(df)   # call EDA part
+        elif page == "Feature Engineering":
+            df = run_feature_engineering(df)
 
-    elif page == "Model Training":
-        pass   #call algo part for model training
 
-    else:
-        pass #call prediction
+        elif page == "Model Training":
+            run_model_training(df)
+
+
+        elif page == "Model Evaluation":
+            run_model_evaluation(df)
+            
+
+        else:
+            pass #call prediction
+
+    except Exception as e:
+        st.error(f"An error occurred: {e}")
+
 
 
 
