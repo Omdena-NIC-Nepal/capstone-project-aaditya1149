@@ -7,6 +7,7 @@ from utils.st_exploratory import run_eda
 from utils.st_feature_engineering import run_feature_engineering
 from utils.st_model_training import run_model_training
 from utils.st_model_evaluation import run_model_evaluation
+from utils.st_climate_text_analysis import run_climate_text_analysis
 
 
 # '''
@@ -47,7 +48,7 @@ def main():
     #side bar
 
     st.sidebar.title("Navigation Page")
-    page = st.sidebar.radio("Go to", ["EDA", "Feature Engineering", "Model Training", "Model Evaluation"])
+    page = st.sidebar.radio("Go to", ["EDA", "Feature Engineering", "Model Training", "Model Evaluation", "Climate Text Analysis"])
 
     # if 'df' not in st.session_state:
     #     st.session_state.df = load_data()
@@ -71,7 +72,7 @@ def main():
             
 
         else:
-            pass #call prediction
+            run_climate_text_analysis()
 
     except Exception as e:
         st.error(f"An error occurred: {e}")
